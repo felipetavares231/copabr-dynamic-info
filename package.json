@@ -1,0 +1,20 @@
+{
+  "name": "copabr-dynamic-info",
+  "version": "1.0.0",
+  "description": "A simple program to fetch runner information from the internet",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "fetch": "node index.js"
+  },
+  "keywords": [
+    "runner",
+    "fetch",
+    "information"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
