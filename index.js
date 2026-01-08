@@ -237,16 +237,29 @@ async function main() {
         `
       ),
       saveToFile(
-        "match",
+        "match_info_1",
         `
-        NETHER: ${matchInfo.runner1.enterNether} - ${matchInfo.runner2.enterNether}
-        BASTION: ${matchInfo.runner1.enterBastion} - ${matchInfo.runner2.enterBastion}
-        FORTRESS: ${matchInfo.runner1.enterFortress} - ${matchInfo.runner2.enterFortress}
-        BLIND: ${matchInfo.runner1.blindTravel} - ${matchInfo.runner2.blindTravel}
-        STRONGHOLD: ${matchInfo.runner1.enterStronghold} - ${matchInfo.runner2.enterStronghold}
-        END: ${matchInfo.runner1.enterEnd} - ${matchInfo.runner2.enterEnd}
-        DRAGON KILL: ${matchInfo.runner1.killDragon} - ${matchInfo.runner2.killDragon}
-        FINAL TIME: ${matchInfo.runner1.finalTime} - ${matchInfo.runner2.finalTime}
+        NETHER: ${matchInfo.runner1.enterNether}
+        BASTION: ${matchInfo.runner1.enterBastion}
+        FORTRESS: ${matchInfo.runner1.enterFortress}
+        BLIND: ${matchInfo.runner1.blindTravel}
+        STRONGHOLD: ${matchInfo.runner1.enterStronghold}
+        END: ${matchInfo.runner1.enterEnd}
+        DRAGON KILL: ${matchInfo.runner1.killDragon}
+        FINAL TIME: ${matchInfo.runner1.finalTime}
+        `
+      ),
+      saveToFile(
+        "match_info_2",
+        `
+        NETHER: ${matchInfo.runner2.enterNether}
+        BASTION: ${matchInfo.runner2.enterBastion}
+        FORTRESS: ${matchInfo.runner2.enterFortress}
+        BLIND: ${matchInfo.runner2.blindTravel}
+        STRONGHOLD: ${matchInfo.runner2.enterStronghold}
+        END: ${matchInfo.runner2.enterEnd}
+        DRAGON KILL: ${matchInfo.runner2.killDragon}
+        FINAL TIME: ${matchInfo.runner2.finalTime}
         `
       )
     ]);

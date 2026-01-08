@@ -5,7 +5,7 @@ A Node.js program that fetches ([MCSR Ranked](https://mcsrranked.com/)) statisti
 ## Features
 
 - Fetches peak ELO, personal best (PB) time, wins, and losses for two players
-- Retrieves the most recent match's splits comparison (Nether, Bastion, Fortress, Blind Travel, Stronghold, End, Dragon Kill, Final Time)
+- Retrieves the most recent match's splits (Nether, Bastion, Fortress, Blind Travel, Stronghold, End, Dragon Kill, Final Time) for each runner separately
 - Saves information to easily readable text files which you can then add to your OBS Overlays
 
 ## Installation
@@ -92,7 +92,7 @@ Then run:
 
 ## Output
 
-The program creates three text files in the same directory as the executable (or current working directory when running with Node.js):
+The program creates four text files in the same directory as the executable (or current working directory when running with Node.js):
 
 ### `runner1_info.txt`
 Contains statistics for the first player:
@@ -112,17 +112,30 @@ Contains statistics for the second player:
         Losses (season): 8
 ```
 
-### `match_info.txt`
-Contains a comparison of splits from the most recent match:
+### `match_info_1.txt`
+Contains match splits for runner 1 from the most recent match:
 ```
-        NETHER: 02:15.123 - 02:18.456
-        BASTION: 03:45.789 - 03:42.123
-        FORTRESS: 05:12.345 - 05:08.901
-        BLIND: 08:30.567 - 08:25.234
-        STRONGHOLD: 12:45.890 - 12:40.123
-        END: 15:20.456 - 15:15.789
-        DRAGON KILL: 18:30.123 - 18:25.456
-        FINAL TIME: 20:45.678 - -
+        NETHER: 02:15.123
+        BASTION: 03:45.789
+        FORTRESS: 05:12.345
+        BLIND: 08:30.567
+        STRONGHOLD: 12:45.890
+        END: 15:20.456
+        DRAGON KILL: 18:30.123
+        FINAL TIME: 20:45.678
+```
+
+### `match_info_2.txt`
+Contains match splits for runner 2 from the most recent match:
+```
+        NETHER: 02:18.456
+        BASTION: 03:42.123
+        FORTRESS: 05:08.901
+        BLIND: 08:25.234
+        STRONGHOLD: 12:40.123
+        END: 15:15.789
+        DRAGON KILL: 18:25.456
+        FINAL TIME: -
 ```
 
 **Note:** If a split is not available for a player, it will be displayed as `-`.
