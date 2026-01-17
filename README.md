@@ -38,9 +38,25 @@ Example `config.json`:
 {
   "runner1": "boosterruns",
   "runner2": "sanjinhu",
-  "currentSeasonNumber": 10
+  "currentSeasonNumber": 10,
+  "decimalPrecision": 2,
+  "showTimeLabels": true,
+  "showInfoLabels": true
 }
 ```
+
+### Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `runner1` | string | - | Minecraft username of the first player (required) |
+| `runner2` | string | - | Minecraft username of the second player (required) |
+| `currentSeasonNumber` | number | - | Current MCSR Ranked season number (required for fetching all-time stats) |
+| `decimalPrecision` | number | `3` | Number of decimal places for time display: `0` (MM:SS), `2` (MM:SS.cc), or `3` (MM:SS.mmm) |
+| `showTimeLabels` | boolean | `true` | When `true`, match splits include labels (e.g., "NETHER: 02:15.12"). When `false`, only times are shown. |
+| `showInfoLabels` | boolean | `true` | When `true`, player info includes labels (e.g., "Peak Elo (alltime): 1850"). When `false`, only values are shown. |
+
+**Note:** Setting `showTimeLabels` and `showInfoLabels` to `false` is useful when you want to add custom labels in your OBS overlay.
 
 ## Running the Program
 

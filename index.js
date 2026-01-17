@@ -35,11 +35,22 @@ async function getConfig() {
   return config;
 }
 
-function formatTime(ms) {
+function formatTime(ms, precision = 3) {
   const minutes = Math.floor(ms / 60000);
   const seconds = Math.floor((ms % 60000) / 1000);
+  
+  if (precision === 0) {
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+  
   const milliseconds = ms % 1000;
-
+  
+  if (precision === 2) {
+    const centiseconds = Math.floor(milliseconds / 10);
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(centiseconds).padStart(2, '0')}`;
+  }
+  
+  // precision === 3 (default)
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(3, '0')}`;
 }
 
@@ -98,11 +109,12 @@ async function fetchMatchInfo(runner1, runner2) {
 
     const finalTime = data?.data?.completions[0]?.time
 
+    const precision = config.decimalPrecision ?? 3;
     const formatTimeOrDash = (time) => {
       if (time === undefined || time === null || isNaN(time)) {
         return '-';
       }
-      const formatted = formatTime(time);
+      const formatted = formatTime(time, precision);
       return formatted.includes('NaN') ? '-' : formatted;
     };
 
@@ -164,9 +176,10 @@ async function fetchRunnerInfo(runnerName) {
     }
   }
 
+  const precision = config.decimalPrecision ?? 3;
   return {
     peakElo,
-    pb: formatTime(pb),
+    pb: formatTime(pb, precision),
     wins,
     losses
   }
@@ -216,29 +229,40 @@ async function main() {
       fetchMatchInfo(config.runner1, config.runner2)
     ]);
 
-    // Save information to files
-    await Promise.all([
-      saveToFile(
-        "runner1",
-        `
+    // Prepare file contents with optional labels
+    const showTimeLabels = config.showTimeLabels !== false; // default true
+    const showInfoLabels = config.showInfoLabels !== false; // default true
+    
+    const runner1Content = showInfoLabels
+      ? `
         Peak Elo (alltime): ${info1.peakElo}
         Pb (alltime): ${info1.pb}
         Wins (season): ${info1.wins}
         Losses (season): ${info1.losses}
         `
-      ),
-      saveToFile(
-        "runner2",
-        `
+      : `
+        ${info1.peakElo}
+        ${info1.pb}
+        ${info1.wins}
+        ${info1.losses}
+        `;
+    
+    const runner2Content = showInfoLabels
+      ? `
         Peak Elo (alltime): ${info2.peakElo}
         Pb (alltime): ${info2.pb}
         Wins (season): ${info2.wins}
         Losses (season): ${info2.losses}
         `
-      ),
-      saveToFile(
-        "match_info_1",
-        `
+      : `
+        ${info2.peakElo}
+        ${info2.pb}
+        ${info2.wins}
+        ${info2.losses}
+        `;
+    
+    const matchInfo1Content = showTimeLabels
+      ? `
         NETHER: ${matchInfo.runner1.enterNether}
         BASTION: ${matchInfo.runner1.enterBastion}
         FORTRESS: ${matchInfo.runner1.enterFortress}
@@ -248,10 +272,19 @@ async function main() {
         DRAGON KILL: ${matchInfo.runner1.killDragon}
         FINAL TIME: ${matchInfo.runner1.finalTime}
         `
-      ),
-      saveToFile(
-        "match_info_2",
-        `
+      : `
+        ${matchInfo.runner1.enterNether}
+        ${matchInfo.runner1.enterBastion}
+        ${matchInfo.runner1.enterFortress}
+        ${matchInfo.runner1.blindTravel}
+        ${matchInfo.runner1.enterStronghold}
+        ${matchInfo.runner1.enterEnd}
+        ${matchInfo.runner1.killDragon}
+        ${matchInfo.runner1.finalTime}
+        `;
+    
+    const matchInfo2Content = showTimeLabels
+      ? `
         NETHER: ${matchInfo.runner2.enterNether}
         BASTION: ${matchInfo.runner2.enterBastion}
         FORTRESS: ${matchInfo.runner2.enterFortress}
@@ -261,7 +294,23 @@ async function main() {
         DRAGON KILL: ${matchInfo.runner2.killDragon}
         FINAL TIME: ${matchInfo.runner2.finalTime}
         `
-      )
+      : `
+        ${matchInfo.runner2.enterNether}
+        ${matchInfo.runner2.enterBastion}
+        ${matchInfo.runner2.enterFortress}
+        ${matchInfo.runner2.blindTravel}
+        ${matchInfo.runner2.enterStronghold}
+        ${matchInfo.runner2.enterEnd}
+        ${matchInfo.runner2.killDragon}
+        ${matchInfo.runner2.finalTime}
+        `;
+
+    // Save information to files
+    await Promise.all([
+      saveToFile("runner1", runner1Content),
+      saveToFile("runner2", runner2Content),
+      saveToFile("match_info_1", matchInfo1Content),
+      saveToFile("match_info_2", matchInfo2Content)
     ]);
 
     console.log('\n✓ All information fetched and saved successfully!');

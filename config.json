@@ -1,5 +1,8 @@
 {
   "runner1": "boosterruns",
   "runner2": "sanjinhu",
-  "currentSeasonNumber": 10
+  "currentSeasonNumber": 10,
+  "decimalPrecision": 2,
+  "showTimeLabels": true,
+  "showInfoLabels": true
 }
